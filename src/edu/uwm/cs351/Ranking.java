@@ -395,8 +395,28 @@ public class Ranking<T> extends AbstractMap<Integer,T>
 	 * @return whether the sequence is empty or in non-decreasing order
 	 * @throws ArrayIndexOutOfBoundsException if an elements in the range is outside the bounds of the array
 	 */
+	/**
+	 * Check whether a sequence in an array is sorted.
+	 * @param comp comparator to use
+	 * @param array array to examine elements of
+	 * @param lo inclusive lower bound
+	 * @param hi exclusive upper bound
+	 * @return whether the sequence is empty or in non-decreasing order
+	 * @throws ArrayIndexOutOfBoundsException if an elements in the range is outside the bounds of the array
+	 */
 	private boolean isSorted(Comparator<T> comp, T[] array, int lo, int hi) {
-		return true; // TODO
+	    if (lo >= hi) {
+	        return true; 
+	    }
+	    T prev = array[lo];
+	    for (int i = lo + 1; i < hi; i++) {
+	        T curr = array[i];
+	        if (comp.compare(prev, curr) > 0) {
+	            return false; 
+	        }
+	        prev = curr;
+	    }
+	    return true; 
 	}
 	
 	/**
