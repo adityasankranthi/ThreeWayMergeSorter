@@ -395,15 +395,6 @@ public class Ranking<T> extends AbstractMap<Integer,T>
 	 * @return whether the sequence is empty or in non-decreasing order
 	 * @throws ArrayIndexOutOfBoundsException if an elements in the range is outside the bounds of the array
 	 */
-	/**
-	 * Check whether a sequence in an array is sorted.
-	 * @param comp comparator to use
-	 * @param array array to examine elements of
-	 * @param lo inclusive lower bound
-	 * @param hi exclusive upper bound
-	 * @return whether the sequence is empty or in non-decreasing order
-	 * @throws ArrayIndexOutOfBoundsException if an elements in the range is outside the bounds of the array
-	 */
 	private boolean isSorted(Comparator<T> comp, T[] array, int lo, int hi) {
 	    if (lo >= hi) {
 	        return true; 
@@ -421,7 +412,7 @@ public class Ranking<T> extends AbstractMap<Integer,T>
 	
 	/**
 	 * Merge three sequences of an array into one at the same indices
-	 * of a second array.  The first and third sequences are arbitrary in length, 
+	 * of a second array. The first and third sequences are arbitrary in length,
 	 * but the second sequence always consists of a single element.
 	 * The merging is stable, the relative order of equivalent elements in the array
 	 * is preserved.
@@ -435,11 +426,77 @@ public class Ranking<T> extends AbstractMap<Integer,T>
 	 * @param out array to place the sorted elements
 	 * @param in array from which to read elements.
 	 * The input array cannot be same as the output array.
-	 * @exception IllegalArgmentException if one of the sequences is not sorted
-	 * @exception ArrayIndexOutOfBoundsException if the ranges are not contained in the arrays
+	 * @throws IllegalArgumentException if one of the sequences is not sorted
+	 * @throws ArrayIndexOutOfBoundsException if the ranges are not contained in the arrays
 	 */
 	private void merge3(Comparator<T> comp, int start1, int start2, int end3, T[] out, T[] in) {
-		// TODO
+	    if (in == out) {
+	        throw new IllegalArgumentException("Input and output arrays cannot be the same");
+	    }
+
+	    if (!isSorted(comp, in, start1, start2)) {
+	        throw new IllegalArgumentException("First sequence not sorted");
+	    }
+
+	    if (!isSorted(comp, in, start2, start2 + 1)) {
+	        throw new IllegalArgumentException("Second sequence not sorted");
+	    }
+
+	    if (!isSorted(comp, in, start2 + 1, end3)) {
+	        throw new IllegalArgumentException("Third sequence not sorted");
+	    }
+
+	    int i = start1, j = start2, k = start2 + 1;
+	    for (int l = start1; l < end3; l++) {
+	        if (i < start2) {
+	            if (j < start2 + 1) {
+	                if (k < end3) {
+	                    out[l] = smallest(comp, in[i], in[j], in[k]);
+	                    if (out[l] == in[i]) i++;
+	                    else if (out[l] == in[j]) j++;
+	                    else k++;
+	                } else {
+	                    out[l] = smallest(comp, in[i], in[j]);
+	                    if (out[l] == in[i]) i++;
+	                    else j++;
+	                }
+	            } else {
+	                if (k < end3) {
+	                    out[l] = smallest(comp, in[i], in[k]);
+	                    if (out[l] == in[i]) i++;
+	                    else k++;
+	                } else {
+	                    System.arraycopy(in, i, out, l, end3 - l);
+	                    break;
+	                }
+	            }
+	        } else {
+	            if (j < start2 + 1) {
+	                if (k < end3) {
+	                    out[l] = smallest(comp, in[j], in[k]);
+	                    if (out[l] == in[j]) j++;
+	                    else k++;
+	                } else {
+	                    out[l] = in[j];
+	                    j++;
+	                }
+	            } else {
+	                System.arraycopy(in, k, out, l, end3 - l);
+	                break;
+	            }
+	        }
+	    }
+	}
+
+	private T smallest(Comparator<T> comp, T a, T b, T c) {
+	    T min = a;
+	    if (comp.compare(b, min) < 0) min = b;
+	    if (comp.compare(c, min) < 0) min = c;
+	    return min;
+	}
+
+	private T smallest(Comparator<T> comp, T a, T b) {
+	    return comp.compare(a, b) <= 0 ? a : b;
 	}
 	
 	/**
