@@ -508,7 +508,23 @@ public class Ranking<T> extends AbstractMap<Integer,T>
 	 * @param tmp temporary array that may be used t same indices
 	 */
 	private void doMergesort(Node<T> r, Comparator<T> comp, int start, T[] out, T[] tmp) {
-		//TODO
+	    if (r == null) return;
+
+	    int leftCount = getCount(r.left);
+	    int rightCount = getCount(r.right);
+
+	    doMergesort(r.left, comp, start, out, tmp);
+	    doMergesort(r.right, comp, start + leftCount + 1, out, tmp);
+
+	    for (int i = start; i < start + leftCount; i++) {
+	        tmp[i] = out[i];
+	    }
+	    tmp[start + leftCount] = r.data;
+	    for (int i = start + leftCount + 1; i < start + leftCount + rightCount + 1; i++) {
+	        tmp[i] = out[i];
+	    }
+
+	    merge3(comp, start, start + leftCount, start + leftCount + rightCount + 1, out, tmp);
 	}
 	
 	/**
