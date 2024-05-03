@@ -530,7 +530,7 @@ public class Ranking<T> extends AbstractMap<Integer,T>
 	/**
 	 * Return a sorted array of the elements in the ranking.
 	 * The sorting is "stable" in that two elements equivalent
-	 * according to the comparator will stay in teh same order as they 
+	 * according to the comparator will stay in the same order as they 
 	 * are in the ranking.  In particular, if a non-discriminating comparator
 	 * is used, the array will duplicate the ranking order.
 	 * @param array array to use (if it is big enough).  It must not be null.
@@ -545,9 +545,39 @@ public class Ranking<T> extends AbstractMap<Integer,T>
 	 */
 	@SuppressWarnings("unchecked")
 	public T[] toSortedArray(T[] array, Comparator<T> comp) {
-		assert wellFormed() : "invariant broken in toSortedArray";
-		// TODO
-		return array;
+	    assert wellFormed() : "invariant broken in toSortedArray";
+
+	    int size = getCount(root);
+	    T[] tmp;
+
+	    if (array == null) {
+	        array = makeArray(size);
+	        tmp = makeArray(size);
+	    } else if (array.length < size) {
+	        array = Arrays.copyOf(array, size);
+	        tmp = makeArray(size);
+	    } else {
+	        tmp = makeArray(size);
+	    }
+
+	    Comparator<T> comparator;
+	    if (comp == null) {
+	        if (size > 0) {
+	            Node<T> node = doGet(root, 1);
+	            if (node.data instanceof Comparable) {
+	                comparator = (Comparator<T>) Comparator.naturalOrder();
+	            } else {
+	                throw new ClassCastException("Elements are not Comparable");
+	            }
+	        } else {
+	            comparator = (Comparator<T>) Comparator.naturalOrder();
+	        }
+	    } else {
+	        comparator = comp;
+	    }
+	    doMergesort(root, comparator, 0, array, tmp);
+
+	    return array;
 	}
 	
 	/**
