@@ -1,57 +1,49 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/66piO2Wf)
-# CompSci 351 / CompSt 751 Homework Assignment 13
+### Project Name: **ThreeWayMergeSorter**
 
-This is a homework assignment at University of Wisconsin-Milwaukee.
+### GitHub README
 
-## Planning: Due Friday 10pm
+# ThreeWayMergeSorter
 
-### Focus
+## Overview
+**ThreeWayMergeSorter** is a project designed to extend the functionality of a ranking class by implementing a three-way merge sort algorithm. This assignment involves updating the `Ranking` class from Homework #10 to include sorting capabilities using a novel three-way merge approach. The project focuses on stability in sorting and efficiency in recursive code.
 
-#### What is this homework assignment about?
-we'll be modifying the Ranking class by incorporating sorting functionality. 
+## Features
+- **Ranking ADT Update**: Adds sorting functionality to the existing `Ranking` class.
+- **Three-Way Merge Sort**: Implements a merge sort algorithm using a three-way merge technique.
+- **Stability**: Ensures that equivalent elements maintain their relative order after sorting.
+- **Efficiency Testing**: Includes tests to ensure the sorting algorithm performs efficiently.
 
-### Gather
+## Key Components
+- **`Ranking` Class**: Updated to include sorting methods.
+  - `toSortedArray(array, comparator)`: Sorts elements and places them into the provided or newly created array using a comparator.
+  
+- **Helper Methods**:
+  - `isSorted(comp, array, lo, hi)`: Checks if a portion of the array is sorted according to the comparator.
+  - `merge3(comp, lo1, lo2, hi3, out, in)`: Performs a three-way merge on sorted sequences from an input array into an output array.
+  - `doMergesort(r, comp, start, out, tmp)`: Recursively sorts elements in a binary tree structure and merges them using the three-way merge.
 
-#### What do I know?  What do I need to know that's new?
-I think I have the sufficient knowledge to implement this homework.
+## Usage
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/yourusername/ThreeWayMergeSorter.git
+   ```
+2. **Navigate to the Project Directory**:
+   ```bash
+   cd ThreeWayMergeSorter
+   ```
+3. **Open in IDE**: Open the project in your preferred Java IDE (e.g., Eclipse).
 
-### Brainstorm
+## Running Tests
+- **JUnit Tests**: The repository includes various JUnit tests to verify the correctness and efficiency of the implementation.
+  - **Tests for New Methods**: `src/TestRankingNew.java`
+  - **Exhaustive Sorting Tests**: `src/TestSort.java`
+  - **Efficiency Tests**: `src/TestEfficiencyNew.java`
 
-#### What are some ideas for solving this homework assignment?
-As usual following the what you need to do in the homework statement worked for me. I would first start by revising the homework 10 data structure to get a hand of it.
-
-### Plan
-
-#### What will I work on first after I finish this planning part?
-I will start by implementing the helper methods first. 
-
-*The preceding steps should be completed and committed by the
-Friday 10pm deadline.*
-
-## Reflection: Due Monday 10pm
-
-### Review
-
-#### Did I correctly anticipate the difficulties?
-I did anticipate the difficulties perfectly this time.
-
-#### How did the plan go?
-the plan went successfully, followed the lectures which made the implementation easier. I also started the assignment earlier. 
-
-### Preview
-
-#### What should I do differently for next week's homework assignment?
-follow the same plan as this time to start the assignment as soon as possible.
-
-#### Do I need more resources?
-I did not find myself needing any more resources.
-
-## Optional Feedback
-
-### Comments (optional)
-
-#### Here are my comments on the assignment to the course instructors:
-
-### Check in (optional)
-
-#### How am I feeling about the assignment and this course?
+## Implementation Steps
+1. **Unlock Locked Tests**: Begin by unlocking the locked tests to understand the required arguments and expected behavior of the helper methods.
+2. **Implement Helper Methods**: Develop the `isSorted`, `merge3`, and `doMergesort` methods.
+3. **Update `Ranking` Class**: Implement the `toSortedArray` method using the helper methods.
+4. **Run Tests**: Use `TestRankingNew` to check for obvious bugs. 
+5. **Check Edge Cases**: Use `TestSort` to find and fix any remaining issues.
+6. **Efficiency Testing**: Use `TestEfficiencyNew` to ensure that the algorithm performs efficiently.
+7. **Refactor if Needed**: Make necessary changes based on efficiency testing results and revalidate with earlier tests.
